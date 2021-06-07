@@ -10,7 +10,9 @@ import (
 	"sync"
 	"syscall"
 
+	"github.com/ChatelainSys/SneakPeek/types"
 	"github.com/Shopify/sarama"
+	"github.com/golang/protobuf/proto"
 )
 
 // Sarama configuration options
@@ -49,6 +51,16 @@ func init() {
 	if len(group) == 0 {
 		panic("no Kafka consumer group defined, please set the -group flag")
 	}
+}
+
+func Unmarshal(buf []byte, pb proto.Message) error {
+	// Unmarshal
+	err := proto.Unmarshal(buf, pb)
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
 
 func main() {
@@ -163,7 +175,11 @@ func (consumer *Consumer) ConsumeClaim(session sarama.ConsumerGroupSession, clai
 	// The `ConsumeClaim` itself is called within a goroutine, see:
 	// https://github.com/Shopify/sarama/blob/master/consumer_group.go#L27-L29
 	for message := range claim.Messages() {
-		log.Printf("Message claimed: value = %s, timestamp = %v, topic = %s", string(message.Value), message.Timestamp, message.Topic)
+		resp := &types.TxResponse{}
+
+		_ = Unmarshal(message.Value, resp)
+		log.Printf("%v \n", resp.Transaction)
+
 		session.MarkMessage(message, "")
 	}
 
