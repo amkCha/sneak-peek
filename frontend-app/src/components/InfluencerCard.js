@@ -41,7 +41,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function InfluencerCard({
-  profilePic
+  profilePic,
+  userName,
+  profileDescription
 }) {
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
@@ -51,10 +53,9 @@ export default function InfluencerCard({
     setExpanded(!expanded);
   };
 
-  function redirectToPayPerView() {
-    history.push("/pay-per-view");
+  function redirectToPayPerView(userName) {
+    history.push(`/pay-per-view/${userName}`);
   };
-
 
   return (
     <Card className={classes.root}>
@@ -69,22 +70,22 @@ export default function InfluencerCard({
               <MoreVertIcon />
           </IconButton>
         }
-        title="0x_b1"
+        title={userName}
         subheader="Member since january, 2021"
       />
       <CardMedia
         className={classes.media}
         image={profilePic}
-        title="0x_b1 profile pic"
+        title={`${userName} profile pic`}
       />
       <CardContent>
         <Typography variant="body2" color="textSecondary" component="p">
-          Trading for more than a year, I like to find special tokens that have yet to hit it big on the coin market. 
+          {profileDescription} 
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
-        <Button size="small" color="primary" onClick={() => {redirectToPayPerView()}}> 
-          Ask a question on 0x_b1 wallet
+        <Button size="small" color="primary" onClick={() => {redirectToPayPerView(userName)}}> 
+          {`Ask a question on ${userName} wallet`}
         </Button>
         <IconButton
           className={clsx(classes.expand, {
@@ -110,5 +111,6 @@ export default function InfluencerCard({
 }
 
 InfluencerCard.propTypes = {
-  profilePic: PropTypes.string.isRequired
+  profilePic: PropTypes.string.isRequired,
+  userName: PropTypes.string.isRequired
 };

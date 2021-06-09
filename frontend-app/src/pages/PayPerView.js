@@ -5,16 +5,19 @@ import PropTypes from "prop-types";
 import QuestionToggle from "../components/QuestionToggle"
 import LogoAppBar from "../components/LogoAppBar"
 
-export const PayPerView = () => {
-
+export const PayPerView = ({match}) => {
+  const { userName } = match.params;
+  
   return (
     <>
     <LogoAppBar />
-    <QuestionToggle />
+    <QuestionToggle userName={userName} />
     </>
   );
 };
 
-PayPerView.propTypes = {};
+PayPerView.propTypes = {
+  match: PropTypes.object.isRequired
+};
 
 export default PayPerView;

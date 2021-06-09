@@ -37,7 +37,7 @@ export const AppRouter = () => {
         </Grid>
       </Route>
       <Route exact path={"/traders-influencers"} component={Influencers} />
-      <Route exact path={"/pay-per-view"} component={PayPerView} />
+      <Route exact path={"/pay-per-view/:userName"} component={PayPerView} />
     </Switch>
   );
 };

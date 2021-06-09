@@ -1,24 +1,31 @@
 import React from 'react';
+import PropTypes from "prop-types";
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
-import NativeSelect from '@material-ui/core/NativeSelect';
 import InputBase from '@material-ui/core/InputBase';
 import Button from '@material-ui/core/Button';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
+import { useZkProof } from "../hooks/useZkProof"
+
+import { tokenAddresses } from "../data/translationToken"
+import SimpleDialog from "../components/SimpleDialog"
 
 const BootstrapInput = withStyles((theme) => ({
   root: {
     'label + &': {
       marginTop: theme.spacing(3),
+      color: "#282c34",
+      fontSize: "17px",
+      backgroundColor: theme.palette.background.paper
     },
   },
   input: {
     borderRadius: 4,
     position: 'relative',
-    backgroundColor: theme.palette.background.paper,
     border: '1px solid #ced4da',
     fontSize: 16,
     padding: '10px 26px 10px 12px',
@@ -45,18 +52,20 @@ const BootstrapInput = withStyles((theme) => ({
 }))(InputBase);
 
 const useStyles = makeStyles((theme) => ({
-  margin: {
-    margin: theme.spacing(1),
-  },
   question: {
-    width: "250px",
+    width: "450px",
+    margin: theme.spacing(1)
+  },
+  token: {
+    width: "150px",
     margin: theme.spacing(1)
   },
   divQuestion: {
     flexGrow: 1
   },
   inputLabel: {
-    fontSize: "30px"
+    fontSize: "30px",
+    color: "#3f51b5",
   },
   button: {
     margin: theme.spacing(1),
@@ -72,48 +81,81 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function QuestionToggle() {
+export default function QuestionToggle({userName}) {
   const classes = useStyles();
-  const [age, setAge] = React.useState('');
-  const handleChangeToken = (event) => {
-    setAge(event.target.value);
+  const [question, setQuestion] = React.useState('');
+  const handleChangeQuestion = (event) => {
+    setQuestion(event.target.value);
   };
+  const [token, setToken] = React.useState('');
+  const handleChangeToken = (event) => {
+    setToken(event.target.value);
+  };
+
+  const {
+    isLoading,
+    postAndSetProof,
+    proof,
+    openDialog,
+    handleDialogClose
+  } = useZkProof();
+
+  const ButtonContent = (
+    <div>
+      {isLoading && <CircularProgress size="1.5rem" />}
+      {!isLoading && "Check with Zk proof"}
+    </div>
+  );
+
   return (
     <div className={classes.divQuestion}>
       <FormControl className={classes.question}>
-        <InputLabel id="demo-customized-select-label" className={classes.inputLabel}>Select a question</InputLabel>
+        <InputLabel id="demo-customized-select-label-question" className={classes.inputLabel}>Select a question</InputLabel>
         <Select
-          labelId="demo-customized-select-label"
-          id="demo-customized-select"
-          value={age}
+          labelId="demo-customized-select-label-question"
+          id="demo-customized-select-question"
+          value={question}
+          onChange={handleChangeQuestion}
+          input={<BootstrapInput />}
+        >
+          <MenuItem value="">
+            <em>None</em>
+          </MenuItem>
+          <MenuItem value={1}>{`Has influencer ${userName} been holding this token more than selling it for the past 6 months ?`}</MenuItem>
+          <MenuItem value={2}>{`Does influencer ${userName} has a diversified wallet ?`}</MenuItem>
+        </Select>
+      </FormControl>
+      <FormControl className={classes.token}>
+        <InputLabel id="demo-customized-select-label-token" className={classes.inputLabel}>Token</InputLabel>
+        <Select
+          labelId="demo-customized-select-label-token"
+          id="demo-customized-select-token"
+          value={token}
           onChange={handleChangeToken}
           input={<BootstrapInput />}
         >
           <MenuItem value="">
             <em>None</em>
           </MenuItem>
-          <MenuItem value={10}>Has this trader-influencer been holding this token more than selling it for the past 6 months ? </MenuItem>
-          <MenuItem value={20}>Does this trader-influencer has a diversified wallet ? </MenuItem>
+          <MenuItem value={"COMP"}>COMP</MenuItem>
+          <MenuItem value={"LINK"}>LINK</MenuItem>
+          <MenuItem value={"DODO"}>DODO</MenuItem>
         </Select>
       </FormControl>
-      <FormControl className={classes.margin}>
-        <InputLabel id="demo-customized-select-label" className={classes.inputLabel}>Token</InputLabel>
-        <Select
-          labelId="demo-customized-select-label"
-          id="demo-customized-select"
-          value={age}
-          onChange={handleChangeToken}
-          input={<BootstrapInput />}
-        >
-          <MenuItem value="">
-            <em>None</em>
-          </MenuItem>
-          <MenuItem value={10}>MINA</MenuItem>
-          <MenuItem value={20}>GITCOIN</MenuItem>
-          <MenuItem value={30}>MATIC</MenuItem>
-        </Select>
-      </FormControl>
-      <Button variant="outlined" className={classes.button} size="large">Check with Zk proof</Button>
+      <Button 
+        variant="outlined"
+        className={classes.button}
+        size="large"
+        onClick={() => postAndSetProof(tokenAddresses[token])}>
+          {ButtonContent}
+      </Button>
+      <SimpleDialog selectedValue={proof} open={openDialog} onClose={handleDialogClose} />
     </div>
   );
 }
+
+
+QuestionToggle.propTypes = {
+  userName: PropTypes.string.isRequired
+};
+
