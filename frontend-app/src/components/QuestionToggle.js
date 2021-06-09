@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from "prop-types";
+// Material ui
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -8,10 +9,13 @@ import Select from '@material-ui/core/Select';
 import InputBase from '@material-ui/core/InputBase';
 import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import Avatar from '@material-ui/core/Avatar';
+import Grid from '@material-ui/core/Grid';
 
 import { useZkProof } from "../hooks/useZkProof"
 
 import { tokenAddresses } from "../data/translationToken"
+import { usernameToPic } from "../data/translationPic"
 import SimpleDialog from "../components/SimpleDialog"
 
 const BootstrapInput = withStyles((theme) => ({
@@ -77,7 +81,12 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor: '#282c34',
       color: '#95e664',
       borderColor: '#95e664',
-  },
+  }},
+  avatar: {
+    marginTop: "28px",
+    marginRight: "20px",
+    width: theme.spacing(7),
+    height: theme.spacing(7),
   }
 }));
 
@@ -109,47 +118,55 @@ export default function QuestionToggle({userName}) {
 
   return (
     <div className={classes.divQuestion}>
-      <FormControl className={classes.question}>
-        <InputLabel id="demo-customized-select-label-question" className={classes.inputLabel}>Select a question</InputLabel>
-        <Select
-          labelId="demo-customized-select-label-question"
-          id="demo-customized-select-question"
-          value={question}
-          onChange={handleChangeQuestion}
-          input={<BootstrapInput />}
-        >
-          <MenuItem value="">
-            <em>None</em>
-          </MenuItem>
-          <MenuItem value={1}>{`Has influencer ${userName} been holding this token more than selling it for the past 6 months ?`}</MenuItem>
-          <MenuItem value={2}>{`Does influencer ${userName} has a diversified wallet ?`}</MenuItem>
-        </Select>
-      </FormControl>
-      <FormControl className={classes.token}>
-        <InputLabel id="demo-customized-select-label-token" className={classes.inputLabel}>Token</InputLabel>
-        <Select
-          labelId="demo-customized-select-label-token"
-          id="demo-customized-select-token"
-          value={token}
-          onChange={handleChangeToken}
-          input={<BootstrapInput />}
-        >
-          <MenuItem value="">
-            <em>None</em>
-          </MenuItem>
-          <MenuItem value={"COMP"}>COMP</MenuItem>
-          <MenuItem value={"LINK"}>LINK</MenuItem>
-          <MenuItem value={"DODO"}>DODO</MenuItem>
-        </Select>
-      </FormControl>
-      <Button 
-        variant="outlined"
-        className={classes.button}
-        size="large"
-        onClick={() => postAndSetProof(tokenAddresses[token])}>
-          {ButtonContent}
-      </Button>
-      <SimpleDialog selectedValue={proof} open={openDialog} onClose={handleDialogClose} />
+      <Grid
+        container
+        direction="row"
+        justify="center"
+        alignItems="center"
+      >
+        <Avatar alt="user" src={usernameToPic[userName]} className={classes.avatar} />
+        <FormControl className={classes.question}>
+          <InputLabel id="demo-customized-select-label-question" className={classes.inputLabel}>Select a question</InputLabel>
+          <Select
+            labelId="demo-customized-select-label-question"
+            id="demo-customized-select-question"
+            value={question}
+            onChange={handleChangeQuestion}
+            input={<BootstrapInput />}
+          >
+            <MenuItem value="">
+              <em>None</em>
+            </MenuItem>
+            <MenuItem value={1}>{`Has influencer ${userName} been holding this token more than selling it for the past 6 months ?`}</MenuItem>
+            <MenuItem value={2}>{`Does influencer ${userName} has a diversified wallet ?`}</MenuItem>
+          </Select>
+        </FormControl>
+        <FormControl className={classes.token}>
+          <InputLabel id="demo-customized-select-label-token" className={classes.inputLabel}>Token</InputLabel>
+          <Select
+            labelId="demo-customized-select-label-token"
+            id="demo-customized-select-token"
+            value={token}
+            onChange={handleChangeToken}
+            input={<BootstrapInput />}
+          >
+            <MenuItem value="">
+              <em>None</em>
+            </MenuItem>
+            <MenuItem value={"COMP"}>COMP</MenuItem>
+            <MenuItem value={"LINK"}>LINK</MenuItem>
+            <MenuItem value={"DODO"}>DODO</MenuItem>
+          </Select>
+        </FormControl>
+        <Button 
+          variant="outlined"
+          className={classes.button}
+          size="large"
+          onClick={() => postAndSetProof(tokenAddresses[token])}>
+            {ButtonContent}
+        </Button>
+        <SimpleDialog selectedValue={proof} open={openDialog} onClose={handleDialogClose} />
+      </Grid>
     </div>
   );
 }
