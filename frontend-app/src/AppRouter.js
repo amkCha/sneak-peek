@@ -1,11 +1,12 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
 import { Switch, Route } from 'react-router-dom';
+// Material ui
 import { makeStyles } from '@material-ui/core/styles';
+import Grid from '@material-ui/core/Grid';
 
 import Influencers from "./pages/Influencers";
 import PayPerView from "./pages/PayPerView";
-import logo from './logo.svg';
 
 const useStyles = makeStyles(() => ({
   logo: {
@@ -25,8 +26,15 @@ export const AppRouter = () => {
   return (
     <Switch>
       <Route exact path={"/"}>
-        <img src={logo} alt="logo" className={classes.logo} onClick={() => {redirectToInfluencers()}}/>
-        <img src={"/images/eyesbnw.svg"} alt="logo" className={classes.logo} onClick={()=>{console.log("test")}} />
+        <Grid
+        container
+        direction="column"
+        justify="flex-start"
+        alignItems="center"
+        >
+            <img src={"/images/logo.svg"} alt="logo" className={classes.logo} onClick={() => {redirectToInfluencers()}}/>
+            <img src={"/images/eyesbnw.svg"} alt="logo" className={classes.logo} onClick={()=>{console.log("test")}} />
+        </Grid>
       </Route>
       <Route exact path={"/traders-influencers"} component={Influencers} />
       <Route exact path={"/pay-per-view"} component={PayPerView} />

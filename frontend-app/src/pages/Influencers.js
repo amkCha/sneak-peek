@@ -4,6 +4,7 @@ import React from "react";
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 // Component 
+import LogoAppBar from "../components/LogoAppBar"
 import InfluencerCard from "../components/InfluencerCard"
 
 const useStyles = makeStyles((theme) => ({
@@ -17,6 +18,7 @@ export const Influencers = () => {
 
   return (
     <>
+    <LogoAppBar />
     <Grid
       container
       direction="column"

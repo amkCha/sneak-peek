@@ -6,6 +6,8 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import NativeSelect from '@material-ui/core/NativeSelect';
 import InputBase from '@material-ui/core/InputBase';
+import Button from '@material-ui/core/Button';
+
 
 const BootstrapInput = withStyles((theme) => ({
   root: {
@@ -49,6 +51,24 @@ const useStyles = makeStyles((theme) => ({
   question: {
     width: "250px",
     margin: theme.spacing(1)
+  },
+  divQuestion: {
+    flexGrow: 1
+  },
+  inputLabel: {
+    fontSize: "30px"
+  },
+  button: {
+    margin: theme.spacing(1),
+    marginTop: "32px",
+    marginLeft: "32px",
+    backgroundColor: "#95e664",
+    color: "#282c34",
+    "&:hover": {
+      backgroundColor: '#282c34',
+      color: '#95e664',
+      borderColor: '#95e664',
+  },
   }
 }));
 
@@ -59,9 +79,9 @@ export default function QuestionToggle() {
     setAge(event.target.value);
   };
   return (
-    <div>
+    <div className={classes.divQuestion}>
       <FormControl className={classes.question}>
-        <InputLabel id="demo-customized-select-label">Select a question</InputLabel>
+        <InputLabel id="demo-customized-select-label" className={classes.inputLabel}>Select a question</InputLabel>
         <Select
           labelId="demo-customized-select-label"
           id="demo-customized-select"
@@ -77,7 +97,7 @@ export default function QuestionToggle() {
         </Select>
       </FormControl>
       <FormControl className={classes.margin}>
-        <InputLabel id="demo-customized-select-label">Token</InputLabel>
+        <InputLabel id="demo-customized-select-label" className={classes.inputLabel}>Token</InputLabel>
         <Select
           labelId="demo-customized-select-label"
           id="demo-customized-select"
@@ -93,6 +113,7 @@ export default function QuestionToggle() {
           <MenuItem value={30}>MATIC</MenuItem>
         </Select>
       </FormControl>
+      <Button variant="outlined" className={classes.button} size="large">Check with Zk proof</Button>
     </div>
   );
 }
