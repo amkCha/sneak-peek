@@ -5,13 +5,10 @@ import { ethers } from 'ethers';
 import { BrowserRouter as Router } from "react-router-dom";
 import { QueryClientProvider } from "react-query";
 import { QueryClient } from "react-query";
-import { AppContextProvider } from './AppContext';
 
 const queryClient = new QueryClient()
 
 function getLibrary(provider) {
-  console.log("get library")
-  console.log("get library")
   return new ethers.providers.Web3Provider(provider);
 }
 
