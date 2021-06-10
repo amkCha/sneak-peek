@@ -40,7 +40,7 @@ export default function SimpleDialog(props) {
         onCopy={() => setCopied(true)}>
         <button>Copy your proof</button>
       </CopyToClipboard>
-      {copied ? <span style={{color: 'red'}}>Copied.</span> : null}
+      {copied ? <span style={{color: "#282c34"}}>Copied.</span> : null}
     </Dialog>
   );
 }
