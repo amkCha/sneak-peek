@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import { useHistory } from "react-router-dom";
+import ConnectWalletButton from "./ConnectWalletButton"
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -38,6 +39,7 @@ export default function LogoAppBar() {
         <Toolbar>
           <img src={"/images/logo.svg"} alt="logo" className={classes.logo} onClick={() => redirectToHomePage()}/>
           <img src={"/images/eyesbnw.svg"} alt="logo" className={classes.logo} />
+          <ConnectWalletButton/>
         </Toolbar>
       </AppBar>
     </div>

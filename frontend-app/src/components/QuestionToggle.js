@@ -7,16 +7,26 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import InputBase from '@material-ui/core/InputBase';
-import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Avatar from '@material-ui/core/Avatar';
 import Grid from '@material-ui/core/Grid';
+import Button from '@material-ui/core/Button';
+import styled from 'styled-components';
 
 import { useZkProof } from "../hooks/useZkProof"
 
 import { tokenAddresses } from "../data/translationToken"
 import { usernameToPic } from "../data/translationPic"
 import SimpleDialog from "../components/SimpleDialog"
+import { useWeb3React } from '@web3-react/core';
+import MMLogo from '../static/metamask-logo.svg';
+import { injected } from '../connectors';
+
+const MetamaskLogo = styled.img.attrs({
+  src: MMLogo,
+})`
+  height: 40px;
+`;
 
 const BootstrapInput = withStyles((theme) => ({
   root: {
@@ -116,6 +126,8 @@ export default function QuestionToggle({userName}) {
     </div>
   );
 
+  const { activate, active } = useWeb3React();
+  console.log(active);
   return (
     <div className={classes.divQuestion}>
       <Grid
@@ -158,13 +170,21 @@ export default function QuestionToggle({userName}) {
             <MenuItem value={"DODO"}>DODO</MenuItem>
           </Select>
         </FormControl>
-        <Button 
-          variant="outlined"
-          className={classes.button}
-          size="large"
-          onClick={() => postAndSetProof(tokenAddresses[token])}>
-            {ButtonContent}
-        </Button>
+        { !active && (
+          <Button onClick={() => activate(injected)} >
+            <MetamaskLogo />
+          </Button>
+        ) 
+        }
+        { active && (
+          <Button 
+            variant="outlined"
+            className={classes.button}
+            size="large"
+            onClick={() => postAndSetProof(tokenAddresses[token])}>
+              {ButtonContent}
+          </Button>
+        )}
         <SimpleDialog selectedValue={proof} open={openDialog} onClose={handleDialogClose} />
       </Grid>
     </div>
