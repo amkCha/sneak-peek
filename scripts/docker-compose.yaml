@@ -1,0 +1,25 @@
+version: "3.7"
+
+services:
+  backend:
+    build: .
+    environment:
+      DB_ADDRESS: mongodb:27017
+      DB_USERNAME: root
+      DB_PASSWORD: rootpassword
+      INFURA_MAINNET_ENDPOINT: ${INFURA_MAINNET_ENDPOINT}
+    ports:
+      - 5000:5000
+
+  mongodb:
+    image: mongo:4.2.8
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: rootpassword
+    ports:
+      - 27017:27017
+    volumes:
+      - mongodb_data_container:/data/db
+
+volumes:
+  mongodb_data_container:
