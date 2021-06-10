@@ -1,0 +1,28 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: sneak-peek-back
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: sneak-peek-back
+  template:
+    metadata:
+      labels:
+        app: sneak-peek-back
+    spec:
+      containers:
+        - name: sneak-peek
+          image: christiantran/sneak-peek-back:test
+          env:
+            - name: DB_ADDRESS
+              value: cluster0.7sj67.mongodb.net/sneak-peek
+            - name: DB_USERNAME
+              value: root
+            - name: DB_PASSWORD
+              value: rootpassword
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+      restartPolicy: Always

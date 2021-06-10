@@ -1,0 +1,21 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: sneak-peek-front
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: sneak-peek-front
+  template:
+    metadata:
+      labels:
+        app: sneak-peek-front
+    spec:
+      containers:
+        - name: sneak-peek-front
+          image: christiantran/sneak-peek-front:test
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+      restartPolicy: Always
