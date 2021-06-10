@@ -9,27 +9,27 @@ export const useZkProof = () => {
   const [proof, setProof] = React.useState('');
   const [openDialog, setDialogOpen] = React.useState(false);
 
-  const {
-    mutate: postBuildProof,
-    isLoading
-  } = useMutation(
-    buildProof,
-    {
-      onSuccess: () => {
-        console.log("Success on getting the proof")
-      },
-      onError: () => {
-        console.log("No so much success on getting the proof")
-      }
-    }
-  );
+  const mutation = useMutation((tokenAddress) => buildProof(tokenAddress))
+  
+  // const {
+  //   mutate: postBuildProof,
+  //   isLoading
+  // } = useMutation(
+  //   buildProof,
+  //   {
+  //     onSuccess: () => {
+  //       console.log("Success on getting the proof")
+  //     },
+  //     onError: () => {
+  //       console.log("No so much success on getting the proof")
+  //     }
+  //   }
+  // );
 
   const postAndSetProof = async (tokenAddress) =>  {
-    console.log("proofResponse")
-    // const proofResponse = postBuildProof(tokenAddress);
-    const proofResponse = "Ima prooooof"
-    console.log("proofResponse" + proofResponse)
-    setProof(proofResponse);
+    const proofResponse = mutation.mutate(tokenAddress);
+    console.log("proofResponse" + proofResponse.data[0].proof)
+    setProof(proofResponse.data[0].proof);
     console.log("setDialogOpen to true")
     setDialogOpen(true);
   }
@@ -38,8 +38,8 @@ export const useZkProof = () => {
   };
 
   return {
-    isLoading,
-    postAndSetProof,
+    isLoading: mutation.isLoading,
+    postAndSetProof: mutation.mutate,
     proof,
     openDialog,
     handleDialogClose
