@@ -8,6 +8,7 @@ import (
 	"os"
 
 	"github.com/ChatelainSys/SneakPeek/backend/db"
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
@@ -46,10 +47,12 @@ func (h *Handlers) buildProof(c *gin.Context) {
 
 func main() {
 	r := gin.Default()
+	r.Use(cors.Default())
 
+	fmt.Println(db.StaticTrades)
 	hand := &Handlers{DB: InitDB()}
 
 	r.POST("/build-proof", hand.buildProof)
 
-	r.Run() // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
+	_ = r.Run() // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
 }
