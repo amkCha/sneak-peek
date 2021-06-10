@@ -219,12 +219,3 @@ func aggregate() {
 		})
 	}
 }
-
-func main() {
-	switch exec {
-	case "import":
-		importData()
-	default:
-		aggregate()
-	}
-}
