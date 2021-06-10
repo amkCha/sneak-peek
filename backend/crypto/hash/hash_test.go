@@ -8,5 +8,5 @@ import (
 
 func TestHashes(t *testing.T) {
 	inputs := make([]fr.Element, 100)
-	MimcHash(inputs)
+	MimcHash(inputs...)
 }

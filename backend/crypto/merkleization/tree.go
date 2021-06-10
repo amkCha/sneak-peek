@@ -1,7 +1,7 @@
 package merkleization
 
 import (
-	mimc "github.com/ChatelainSys/SneakPeek/crypto/hash"
+	mimc "github.com/ChatelainSys/SneakPeek/backend/crypto/hash"
 	"github.com/consensys/gnark-crypto/ecc/bn254/fr"
 )
 
