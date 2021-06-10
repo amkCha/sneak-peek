@@ -8,7 +8,7 @@ import (
 	"math/big"
 	"os"
 
-	"github.com/ChatelainSys/SneakPeek/db"
+	"github.com/ChatelainSys/SneakPeek/scripts/db"
 	"github.com/ethereum/go-ethereum"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/ethclient"
@@ -17,7 +17,7 @@ import (
 )
 
 var (
-	exec  = ""
+	exec          = ""
 	infuraAddress = os.Getenv("INFURA_MAINNET_ENDPOINT")
 	tokenAddr     = "0x514910771af9ca656af840dff83e8264ecf986ca"
 	walletAddr    = "0xB1AdceddB2941033a090dD166a462fe1c2029484"
@@ -162,8 +162,8 @@ func importData() {
 }
 
 type Trades struct {
-	Day *uint
-	Buy *big.Int
+	Day  *uint
+	Buy  *big.Int
 	Sell *big.Int
 }
 
@@ -178,9 +178,8 @@ func aggregate() {
 
 	BuySellTimeSeries := make([]Trades, (blockEnd-blockStart)/blocksPerDay)
 
-
 	for _, change := range changes {
-		day := (change["blockNumber"].(int64) - blockStart)/blocksPerDay
+		day := (change["blockNumber"].(int64) - blockStart) / blocksPerDay
 		newBalance, _ := (&big.Int{}).SetString(change["newBalance"].(string), 10)
 		oldBalance, _ := (&big.Int{}).SetString(change["oldBalance"].(string), 10)
 		delta := (&big.Int{}).Sub(newBalance, oldBalance)
@@ -214,8 +213,8 @@ func aggregate() {
 		}
 
 		_ = d.AddIntraDayTrade(context.Background(), db.IntraDayTrade{
-			Day: *trade.Day,
-			Buy: trade.Buy.String(),
+			Day:  *trade.Day,
+			Buy:  trade.Buy.String(),
 			Sell: trade.Sell.String(),
 		})
 	}

@@ -1,4 +1,4 @@
-module github.com/ChatelainSys/SneakPeek
+module github.com/ChatelainSys/SneakPeek/scripts
 
 go 1.14
 
