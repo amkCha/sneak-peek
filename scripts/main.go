@@ -8,7 +8,7 @@ import (
 	"math/big"
 	"os"
 
-	"github.com/ChatelainSys/SneakPeek/db"
+	"github.com/ChatelainSys/SneakPeek/scripts/db"
 	"github.com/ethereum/go-ethereum"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/ethclient"

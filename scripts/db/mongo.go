@@ -15,7 +15,7 @@ import (
 
 const (
 	balancesCollection = "balances"
-	tradesCollection = "trades"
+	tradesCollection   = "trades"
 )
 
 type DB struct {
@@ -23,19 +23,19 @@ type DB struct {
 }
 
 type BalanceRecord struct {
-	ID    primitive.ObjectID `bson:"_id" json:"id,omitempty"`
-	BlockNumber uint64 `bson:"blockNumber" json:"blockNumber"`
-	TokenAddr string `bson:"tokenAddr" json:"tokenAddr"`
-	WalletAddr string `bson:"walletAddr" json:"walletAddr"`
-	NewBalance string `bson:"newBalance" json:"newBalance"`
-	OldBalance string `bson:"oldBalance" json:"oldBalance"`
+	ID          primitive.ObjectID `bson:"_id" json:"id,omitempty"`
+	BlockNumber uint64             `bson:"blockNumber" json:"blockNumber"`
+	TokenAddr   string             `bson:"tokenAddr" json:"tokenAddr"`
+	WalletAddr  string             `bson:"walletAddr" json:"walletAddr"`
+	NewBalance  string             `bson:"newBalance" json:"newBalance"`
+	OldBalance  string             `bson:"oldBalance" json:"oldBalance"`
 }
 
 type IntraDayTrade struct {
-	ID    primitive.ObjectID `bson:"_id" json:"id,omitempty"`
-	Day uint `bson:"day" json:"day"`
-	Buy string `bson:"buy" json:"buy"`
-	Sell string `bson:"sell" json:"sell"`
+	ID   primitive.ObjectID `bson:"_id" json:"id,omitempty"`
+	Day  uint               `bson:"day" json:"day"`
+	Buy  string             `bson:"buy" json:"buy"`
+	Sell string             `bson:"sell" json:"sell"`
 }
 
 func NewClient(database string, opt *options.ClientOptions) (*DB, error) {
@@ -52,7 +52,7 @@ func NewClient(database string, opt *options.ClientOptions) (*DB, error) {
 	}, nil
 }
 
-func (d *DB) AddBalance(ctx context.Context, record BalanceRecord) error  {
+func (d *DB) AddBalance(ctx context.Context, record BalanceRecord) error {
 	balanceClient := d.client.Collection(balancesCollection)
 
 	key := []byte(fmt.Sprintf("%d%s%s", record.BlockNumber, record.TokenAddr, record.WalletAddr))
@@ -85,9 +85,8 @@ func (d *DB) GetBalance(ctx context.Context) ([]bson.M, error) {
 	return balances, nil
 }
 
-
-func (d *DB) AddIntraDayTrade(ctx context.Context, intraDayTrade IntraDayTrade) error  {
-	balanceClient := d.client.Collection(tradesCollection)
+func (d *DB) AddIntraDayTrade(ctx context.Context, intraDayTrade IntraDayTrade) error {
+	tradesClient := d.client.Collection(tradesCollection)
 
 	key := []byte(fmt.Sprintf("%d", intraDayTrade.Day))
 	hasher := sha1.New()
@@ -97,6 +96,6 @@ func (d *DB) AddIntraDayTrade(ctx context.Context, intraDayTrade IntraDayTrade) 
 	intraDayTrade.ID = id
 
 	opts := options.Update().SetUpsert(true)
-	_, err := balanceClient.UpdateOne(ctx, bson.D{{"_id", intraDayTrade.ID}}, bson.D{{"$set", intraDayTrade}}, opts)
+	_, err := tradesClient.UpdateOne(ctx, bson.D{{"_id", intraDayTrade.ID}}, bson.D{{"$set", intraDayTrade}}, opts)
 	return err
 }
