@@ -5,6 +5,7 @@ go 1.14
 require (
 	github.com/consensys/gnark v0.4.0
 	github.com/consensys/gnark-crypto v0.4.1-0.20210428083642-6bd055b79906
+	github.com/gin-contrib/cors v1.3.1
 	github.com/gin-gonic/gin v1.7.2
 	github.com/go-playground/validator/v10 v10.6.1 // indirect
 	github.com/golang/snappy v0.0.3-0.20201103224600-674baa8c7fc3 // indirect
