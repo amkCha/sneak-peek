@@ -17,7 +17,8 @@ export const useZkProof = () => {
     buildProof,
     {
       onSuccess: (data) => {
-        setProof(data.proof);
+        const encodedProof = encodeURIComponent(data.proof);
+        setProof(encodedProof);
         console.log("Success on getting the proof")
       },
       onError: () => {
@@ -25,20 +26,6 @@ export const useZkProof = () => {
       }
     }
   );
-
-  // const {
-  //   mutate: sign
-  // } = useMutation(
-  //   signMetamask,
-  //   {
-  //     onSuccess: () => {
-  //       console.log("Success on signing")
-  //     },
-  //     onError: () => {
-  //       console.log("No so much success on signing")
-  //     }
-  //   }
-  // );
 
   useEffect(() => {
     if (isSuccess && data) {
