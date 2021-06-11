@@ -6,7 +6,6 @@ const API_URL = "xxx";
 export async function buildProof(tokenAddress) {
 
   console.log("I'm building");
-  debugger;
   // Add body with tokenAddress and walletAddress to the call api
   const response = await axios.post(
     `https://sneak-peek-back.ops.consensys.net/build-proof`,
@@ -27,5 +26,5 @@ export async function verifyProof(proof) {
       proof: proof
     }
     );
-  return response.verify;
+  return response.data;
 }
