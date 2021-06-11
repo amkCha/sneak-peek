@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useMutation } from "react-query";
 // Constants
 import { buildProof } from "../api";
@@ -8,36 +8,16 @@ export const useZkProof = () => {
   const [proof, setProof] = React.useState('');
   const [openDialog, setDialogOpen] = React.useState(false);
 
-  // const mutation = useMutation((tokenAddress) => buildProof(tokenAddress))
-  // axios.defaults.headers.post['Content-Type'] ='application/json;charset=utf-8';
-  // axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
-
-  // const headers = {
-  //   "Content-Type" : "application/x-www-form-urlencoded",
-  //   "Access-Control-Allow-Origin": "*"
-  // };
-
-  // const mutation = useMutation((tokenAddress) => axios.post(
-  //   "https://sneak-peek-back.ops.consensys.net/build-proof",
-  //   {
-  //     "tokenAddress": "Ox", 
-  //     "walletAddress": "Ox"
-  //   },
-  //   { 
-  //     "headers": {
-  //       "Access-Control-Allow-Origin": "*",
-  //       "Content-Type": "application/json",
-  //     },
-  //   }
-  // ));
-  
   const {
     mutate: postBuildProof,
-    isLoading
+    isLoading,
+    isSuccess,
+    data
   } = useMutation(
     buildProof,
     {
-      onSuccess: () => {
+      onSuccess: (data) => {
+        setProof(data.proof);
         console.log("Success on getting the proof")
       },
       onError: () => {
@@ -46,10 +26,28 @@ export const useZkProof = () => {
     }
   );
 
+  // const {
+  //   mutate: sign
+  // } = useMutation(
+  //   signMetamask,
+  //   {
+  //     onSuccess: () => {
+  //       console.log("Success on signing")
+  //     },
+  //     onError: () => {
+  //       console.log("No so much success on signing")
+  //     }
+  //   }
+  // );
+
+  useEffect(() => {
+    if (isSuccess && data) {
+      setDialogOpen(true);
+    }
+  }, [isSuccess, data]
+  )
   const postAndSetProof = async (tokenAddress) =>  {
-    const proofResponse = postBuildProof(tokenAddress);
-    setProof(proofResponse);
-    setDialogOpen(true);
+    await postBuildProof(tokenAddress);
   }
 
   const handleDialogClose = () => {
