@@ -16,7 +16,6 @@ import Icon from '@material-ui/core/Icon';
 import Typography from '@material-ui/core/Typography';
 
 import { useZkProof } from "../hooks/useZkProof"
-
 import { uuid } from 'uuidv4';
 import { tokenAddresses } from "../data/translationToken"
 import { usernameToPic } from "../data/translationPic"
@@ -25,12 +24,6 @@ import { useWeb3React } from '@web3-react/core';
 import MMLogo from '../static/metamask-logo.svg';
 import { injected } from '../connectors';
 import { sendAsync } from '../utils/sendAsync';
-
-const MetamaskLogo = styled.img.attrs({
-  src: MMLogo,
-})`
-  height: 8px;
-`;
 
 const BootstrapInput = withStyles((theme) => ({
   root: {
@@ -117,7 +110,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function QuestionToggle({userName}) {
+export default function GenerateProof({userName}) {
   const classes = useStyles();
   const [question, setQuestion] = React.useState('');
   const handleChangeQuestion = (event) => {
@@ -164,23 +157,6 @@ export default function QuestionToggle({userName}) {
         justify="center"
         alignItems="center"
       >
-        <Avatar alt="user" src={usernameToPic[userName]} className={classes.avatar} />
-        <FormControl className={classes.question}>
-          <InputLabel id="demo-customized-select-label-question" className={classes.inputLabel}>Select a question</InputLabel>
-          <Select
-            labelId="demo-customized-select-label-question"
-            id="demo-customized-select-question"
-            value={question}
-            onChange={handleChangeQuestion}
-            input={<BootstrapInput />}
-          >
-            <MenuItem value="">
-              <em>None</em>
-            </MenuItem>
-            <MenuItem value={1}>{`Has influencer ${userName} been holding this token more than selling it for the past 6 months ?`}</MenuItem>
-            <MenuItem value={2}>{`Does influencer ${userName} has a diversified wallet ?`}</MenuItem>
-          </Select>
-        </FormControl>
         <FormControl className={classes.token}>
           <InputLabel id="demo-customized-select-label-token" className={classes.inputLabel}>Token</InputLabel>
           <Select
@@ -198,33 +174,33 @@ export default function QuestionToggle({userName}) {
             <MenuItem value={"DODO"}>DODO</MenuItem>
           </Select>
         </FormControl>
-        { !active && (
-            <Button variant="outlined" className={classes.button} size="large" onClick={() => activate(injected)} >
-              <img alt="edit" src="/images/metamask-logo.svg" className={classes.metamaskLogo} />
-              <Typography>
-                  Connect your wallet
-              </Typography>
+          { !active && (
+              <Button variant="outlined" className={classes.button} size="large" onClick={() => activate(injected)} >
+                <img alt="edit" src="/images/metamask-logo.svg" className={classes.metamaskLogo} />
+                <Typography>
+                    Connect your wallet
+                </Typography>
+              </Button>
+            ) 
+          }
+          { active && (
+            <Button 
+              variant="outlined"
+              className={classes.button}
+              size="large"
+              onClick={
+                () => sendAsync(
+                library.provider,
+                {
+                  from,
+                  method,
+                  params,
+                }, 
+                () => postAndSetProof(tokenAddresses[token])
+              )}>
+                Generate Proof
             </Button>
-          ) 
-        }
-        { active && (
-          <Button 
-            variant="outlined"
-            className={classes.button}
-            size="large"
-            onClick={
-              () => sendAsync(
-              library.provider,
-              {
-                from,
-                method,
-                params,
-              }, 
-              () => postAndSetProof(tokenAddresses[token])
-            )}>
-              {ButtonContent}
-          </Button>
-        )}
+          )}
         <SimpleDialog selectedValue={proof} open={openDialog} onClose={handleDialogClose} />
       </Grid>
     </div>
@@ -232,7 +208,7 @@ export default function QuestionToggle({userName}) {
 }
 
 
-QuestionToggle.propTypes = {
+GenerateProof.propTypes = {
   userName: PropTypes.string.isRequired
 };
 
