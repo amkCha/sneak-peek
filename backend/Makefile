@@ -1,7 +1,7 @@
 .PHONY: build push
 
 build:
-	docker build -t christiantran/sneak-peek-back:v1.0.1 .
+	docker build -t christiantran/sneak-peek-back:pitchday .
 
 push:
-	docker push christiantran/sneak-peek-back:v1.0.1
+	docker push christiantran/sneak-peek-back:pitchday

@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: sneak-peek-front
-          image: christiantran/sneak-peek-front:v1.0.0-alpha4
+          image: christiantran/sneak-peek-front:pitchday
           imagePullPolicy: Always
           ports:
             - containerPort: 8080

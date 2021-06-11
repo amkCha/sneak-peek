@@ -3,7 +3,7 @@
 build:
 	npm install
 	npm run build
-	docker build -t christiantran/sneak-peek-front:v1.0.0-alpha4 .
+	docker build -t christiantran/sneak-peek-front:pitchday .
 
 push:
-	docker push christiantran/sneak-peek-front:v1.0.0-alpha4
+	docker push christiantran/sneak-peek-front:pitchday
