@@ -42,7 +42,10 @@ func GenerateProof(trades []types.Trades, threshold int) groth16.Proof {
 	thresholdField.SetUint64(uint64(threshold))
 	merkleized := merkleization.MerkleizeTrades(trades)
 	witness.Assign(trades, thresholdField, merkleized.Tree.Root())
-	proof, _ := groth16.Prove(R1CS, PROVING_KEY, &witness)
+	proof, err := groth16.Prove(R1CS, PROVING_KEY, &witness)
+	if err != nil {
+		panic(err)
+	}
 	return proof
 }
 
