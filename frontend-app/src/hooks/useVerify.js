@@ -9,11 +9,13 @@ export const useVerify = () => {
 
   const {
     mutate: postVerifyProof,
-    isLoading
+    isLoading,
+    data
   } = useMutation(
     verifyProof,
     {
-      onSuccess: () => {
+      onSuccess: (data) => {
+        setResponse(data.verify);
         console.log("Success on verifying the proof")
       },
       onError: () => {
@@ -23,8 +25,7 @@ export const useVerify = () => {
   );
 
   const postAndVerifyProof = async (proof) =>  {
-    const verified = postVerifyProof(proof);
-    setResponse(verified);
+    await postVerifyProof(proof);
   }
 
   return {

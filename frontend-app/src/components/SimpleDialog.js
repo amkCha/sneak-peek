@@ -2,9 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { makeStyles } from '@material-ui/core/styles';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import Dialog from '@material-ui/core/Dialog';
 import Typography from '@material-ui/core/Typography';
+import { DialogContent, DialogTitle, Dialog } from '@material-ui/core';
 
 const emails = ['username@gmail.com', 'user02@gmail.com'];
 const useStyles = makeStyles({
@@ -31,6 +30,7 @@ export default function SimpleDialog(props) {
 
   return (
     <Dialog onClose={handleClose} aria-labelledby="simple-dialog-title" open={open}>
+      <DialogContent>
       <DialogTitle id="simple-dialog-title" className={classes.dialogTitle}>Here is a link to post on your social media account</DialogTitle>
       <Typography variant="subtitle1" component="p" className={classes.proof}>
         {selectedValue}
@@ -41,6 +41,7 @@ export default function SimpleDialog(props) {
         <button>Copy link</button>
       </CopyToClipboard>
       {copied ? <span style={{color: "#282c34"}}>Copied.</span> : null}
+      </DialogContent>
     </Dialog>
   );
 }

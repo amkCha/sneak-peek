@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from "prop-types";
 import styled from 'styled-components';
+import Lottie from 'react-lottie';
 // Material ui
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -24,6 +25,8 @@ import { useWeb3React } from '@web3-react/core';
 import MMLogo from '../static/metamask-logo.svg';
 import { injected } from '../connectors';
 import { sendAsync } from '../utils/sendAsync';
+// Cat annimation
+import animationData from "../static/cat-lottie"
 
 const BootstrapInput = withStyles((theme) => ({
   root: {
@@ -110,6 +113,15 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
+const defaultOptions = {
+  loop: true,
+  autoplay: true,
+  animationData: animationData,
+  rendererSettings: {
+    preserveAspectRatio: 'xMidYMid slice',
+  },
+}
+
 export default function GenerateProof({userName}) {
   const classes = useStyles();
   const [question, setQuestion] = React.useState('');
@@ -149,8 +161,25 @@ export default function GenerateProof({userName}) {
   var params = [msgParams, account];
   var method = 'eth_signTypedData';
 
-  return (
+  const func = async () => {
+    await sendAsync(
+        library.provider,
+        {
+          from,
+          method,
+          params,
+        },
+        postAndSetProof,
+        tokenAddresses[token]
+        )
+  }
+   return (
     <div className={classes.divQuestion}>
+      {isLoading && <Lottie
+        options={defaultOptions}
+        height={400}
+        width={400}
+      />}
       <Grid
         container
         direction="row"

@@ -60,6 +60,7 @@ func (h *Handlers) verifyProof(c *gin.Context) {
 	}
 
 	if c.Bind(&json) == nil {
+		fmt.Printf("%v\n", json.Proof)
 		proofBytes, _ := base64.StdEncoding.DecodeString(json.Proof)
 		proof := groth16.NewProof(ecc.BN254)
 		_, _ = proof.ReadFrom(bytes.NewReader(proofBytes))
