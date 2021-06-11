@@ -168,7 +168,7 @@ export default function GenerateProof({userName}) {
           onClick={() => postAndSetProof(tokenAddresses[token])}>
           Generate Proof
           </Button>
-        <SimpleDialog selectedValue={proof} open={openDialog} onClose={handleDialogClose} />
+        <SimpleDialog selectedValue={`https://sneak-peek.ops.consensys.net/verify/${proof}`} open={openDialog} onClose={handleDialogClose} />
       </Grid>
     </div>
   );
