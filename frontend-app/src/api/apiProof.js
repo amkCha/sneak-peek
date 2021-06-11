@@ -16,3 +16,15 @@ export async function buildProof(tokenAddress) {
   );
   return response.proof;
 }
+
+export async function verifyProof(proof) {
+
+  console.log("I'm verifying");
+  const response = await axios.post(
+    `https://sneak-peek-back.ops.consensys.net/verify-proof`,
+    {
+      proof: proof
+    }
+    );
+  return response.verify;
+}
