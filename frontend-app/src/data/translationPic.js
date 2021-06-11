@@ -4,5 +4,6 @@ export const usernameToPic = {
   "CrytoKit": "/images/cryptokitty.png",
   "unmasked": "/images/vendetta.jpg",
   "Shine": "/images/sunglasses.jpg",
-  "MegaMan": "/images/megaman.png"
+  "MegaMan": "/images/megaman.png",
+  "Amel": "/images/joconde_yeux.png"
 }
