@@ -17,12 +17,14 @@ import Typography from '@material-ui/core/Typography';
 
 import { useZkProof } from "../hooks/useZkProof"
 
+import { uuid } from 'uuidv4';
 import { tokenAddresses } from "../data/translationToken"
 import { usernameToPic } from "../data/translationPic"
 import SimpleDialog from "../components/SimpleDialog"
 import { useWeb3React } from '@web3-react/core';
 import MMLogo from '../static/metamask-logo.svg';
 import { injected } from '../connectors';
+import { sendAsync } from '../utils/sendAsync';
 
 const MetamaskLogo = styled.img.attrs({
   src: MMLogo,
@@ -141,7 +143,19 @@ export default function QuestionToggle({userName}) {
     </div>
   );
 
-  const { activate, active } = useWeb3React();
+  const { activate, active, account, library } = useWeb3React();
+  console.log(library)
+  var from = account;
+  const msgParams = [
+    {
+      type: 'string',      // Any valid solidity type
+      name: 'Message',     // Any string label you want
+      value: uuid()  // The value to sign
+   }
+  ];   
+  var params = [msgParams, account];
+  var method = 'eth_signTypedData';
+
   return (
     <div className={classes.divQuestion}>
       <Grid
@@ -198,7 +212,16 @@ export default function QuestionToggle({userName}) {
             variant="outlined"
             className={classes.button}
             size="large"
-            onClick={() => postAndSetProof(tokenAddresses[token])}>
+            onClick={
+              () => sendAsync(
+              library.provider,
+              {
+                from,
+                method,
+                params,
+              }, 
+              () => postAndSetProof(tokenAddresses[token])
+            )}>
               {ButtonContent}
           </Button>
         )}
