@@ -16,13 +16,14 @@ import Icon from '@material-ui/core/Icon';
 import Typography from '@material-ui/core/Typography';
 
 import { useZkProof } from "../hooks/useZkProof"
-
+import { uuid } from 'uuidv4';
 import { tokenAddresses } from "../data/translationToken"
 import { usernameToPic } from "../data/translationPic"
 import SimpleDialog from "../components/SimpleDialog"
 import { useWeb3React } from '@web3-react/core';
 import MMLogo from '../static/metamask-logo.svg';
 import { injected } from '../connectors';
+import { sendAsync } from '../utils/sendAsync';
 
 const BootstrapInput = withStyles((theme) => ({
   root: {
@@ -135,7 +136,19 @@ export default function GenerateProof({userName}) {
     </div>
   );
 
-  const { activate, active } = useWeb3React();
+  const { activate, active, account, library } = useWeb3React();
+  console.log(library)
+  var from = account;
+  const msgParams = [
+    {
+      type: 'string',      // Any valid solidity type
+      name: 'Message',     // Any string label you want
+      value: uuid()  // The value to sign
+   }
+  ];   
+  var params = [msgParams, account];
+  var method = 'eth_signTypedData';
+
   return (
     <div className={classes.divQuestion}>
       <Grid
@@ -161,13 +174,33 @@ export default function GenerateProof({userName}) {
             <MenuItem value={"DODO"}>DODO</MenuItem>
           </Select>
         </FormControl>
-          <Button 
-          variant="outlined"
-          className={classes.button}
-          size="large"
-          onClick={() => postAndSetProof(tokenAddresses[token])}>
-          Generate Proof
-          </Button>
+          { !active && (
+              <Button variant="outlined" className={classes.button} size="large" onClick={() => activate(injected)} >
+                <img alt="edit" src="/images/metamask-logo.svg" className={classes.metamaskLogo} />
+                <Typography>
+                    Connect your wallet
+                </Typography>
+              </Button>
+            ) 
+          }
+          { active && (
+            <Button 
+              variant="outlined"
+              className={classes.button}
+              size="large"
+              onClick={
+                () => sendAsync(
+                library.provider,
+                {
+                  from,
+                  method,
+                  params,
+                }, 
+                () => postAndSetProof(tokenAddresses[token])
+              )}>
+                Generate Proof
+            </Button>
+          )}
         <SimpleDialog selectedValue={proof} open={openDialog} onClose={handleDialogClose} />
       </Grid>
     </div>
