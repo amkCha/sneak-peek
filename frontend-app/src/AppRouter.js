@@ -4,6 +4,7 @@ import { Switch, Route } from 'react-router-dom';
 // Material ui
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
+import Button from '@material-ui/core/Button';
 
 import Influencers from "./pages/Influencers";
 import PayPerView from "./pages/PayPerView";
@@ -12,6 +13,30 @@ const useStyles = makeStyles(() => ({
   logo: {
     width: "800px",
     height: "128px"
+  },
+  buttonInfluencer: {
+    width: '310px',
+    fontSize: "20px",
+    backgroundColor: "#95e664",
+    color: "#000000",
+    "&:hover": {
+      backgroundColor: '#282c34',
+      color: '#95e664',
+      borderColor: '#95e664',
+  }},
+  buttonSneakPeeker: {
+    width: '310px',
+    fontSize: "20px",
+    backgroundColor: "#ffffff",
+    color: "#000000",
+    borderColor: "#000000",
+    "&:hover": {
+      backgroundColor: '#282c34',
+      color: '#95e664',
+      borderColor: '#95e664',
+  }},
+  gridButton: {
+    width: "800px"
   }
 }));
 
@@ -21,6 +46,9 @@ export const AppRouter = () => {
 
   function redirectToInfluencers() {
     history.push("/traders-influencers");
+  };
+  function redirectToInfluencerProof() {
+    history.push("/influencer-proof");
   };
 
   return (
@@ -34,6 +62,28 @@ export const AppRouter = () => {
         >
             <img src={"/images/logo.svg"} alt="logo" className={classes.logo} onClick={() => {redirectToInfluencers()}}/>
             <img src={"/images/eyesbnw.svg"} alt="logo" className={classes.logo} onClick={()=>{console.log("test")}} />
+            <Grid
+              container
+              direction="row"
+              justify="space-evenly"
+              alignItems="center"
+              className={classes.gridButton}
+            >
+            <Button 
+              variant="outlined"
+              className={classes.buttonInfluencer}
+              size="large"
+              onClick={() => {redirectToInfluencerProof()}}>
+                Trader-Influencer
+            </Button>
+            <Button 
+              variant="outlined"
+              className={classes.buttonSneakPeeker}
+              size="large"
+              onClick={() => {redirectToInfluencers()}}>
+                Sneak-peeker
+            </Button>
+          </Grid>
         </Grid>
       </Route>
       <Route exact path={"/traders-influencers"} component={Influencers} />

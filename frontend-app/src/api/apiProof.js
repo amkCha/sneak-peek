@@ -4,11 +4,15 @@ import axios from "axios";
 const API_URL = "xxx";
 
 export async function buildProof(tokenAddress) {
-  await setTimeout(() => { console.log("buildProof" + tokenAddress) }, 2000);
-  // const response = await axios.get(
-  //   `${API_URL}/build-proof/${tokenAddress}`
-  // );
-  // return response.data;
-  console.log('Im building');
-  return `${tokenAddress} prooof`;
+
+  console.log("I'm building");
+  // Add body with tokenAddress and walletAddress to the call api
+  const response = await axios.post(
+    `https://sneak-peek-back.ops.consensys.net/build-proof`,
+    {
+      tokenAddress: "Ox", 
+      walletAddress: "Ox"
+    }
+  );
+  return response.proof;
 }

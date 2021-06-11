@@ -1,29 +1,31 @@
 import React from 'react';
+import { useHistory } from "react-router-dom";
+import PropTypes from "prop-types";
+// Material ui
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import { useHistory } from "react-router-dom";
+import Grid from '@material-ui/core/Grid';
+
+import ConnectWalletButton from "./ConnectWalletButton"
 
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1, 
     alignItems: "baseline"
   },
-  bar: {
-    background: theme.palette.dark50
-  },
-  menuButton: {
-    marginRight: theme.spacing(2),
-  },
-  title: {
-    flexGrow: 1,
-  },
   logo: {
     height: "48px"
+  },
+  gridLogo: {
+    justify: "flex-start"
+  },
+  gridMetamask: {
+
   }
 }));
 
-export default function LogoAppBar() {
+export default function LogoAppBar({isWalletButton}) {
   const classes = useStyles();
   let history = useHistory();
 
@@ -36,10 +38,21 @@ export default function LogoAppBar() {
     <div className={classes.root}>
       <AppBar position="static">
         <Toolbar>
-          <img src={"/images/logo.svg"} alt="logo" className={classes.logo} onClick={() => redirectToHomePage()}/>
-          <img src={"/images/eyesbnw.svg"} alt="logo" className={classes.logo} />
+          <Grid
+            container
+            direction="row"
+            justify="space-between"
+            alignItems="center"
+          >
+            <img src={"/images/logoneyesbnw.png"} alt="logo" className={classes.logo} onClick={() => redirectToHomePage()}/>
+            { isWalletButton && (<ConnectWalletButton/>)}
+          </Grid>
         </Toolbar>
       </AppBar>
     </div>
   );
 }
+
+LogoAppBar.propTypes = {
+  isWalletButton: PropTypes.bool.isRequired
+};

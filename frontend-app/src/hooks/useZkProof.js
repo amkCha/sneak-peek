@@ -2,13 +2,35 @@ import React from 'react';
 import { useMutation } from "react-query";
 // Constants
 import { buildProof } from "../api";
-import { tokenAddresses } from "../data/translationToken";
 
 export const useZkProof = () => {
 
   const [proof, setProof] = React.useState('');
   const [openDialog, setDialogOpen] = React.useState(false);
 
+  // const mutation = useMutation((tokenAddress) => buildProof(tokenAddress))
+  // axios.defaults.headers.post['Content-Type'] ='application/json;charset=utf-8';
+  // axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
+
+  // const headers = {
+  //   "Content-Type" : "application/x-www-form-urlencoded",
+  //   "Access-Control-Allow-Origin": "*"
+  // };
+
+  // const mutation = useMutation((tokenAddress) => axios.post(
+  //   "https://sneak-peek-back.ops.consensys.net/build-proof",
+  //   {
+  //     "tokenAddress": "Ox", 
+  //     "walletAddress": "Ox"
+  //   },
+  //   { 
+  //     "headers": {
+  //       "Access-Control-Allow-Origin": "*",
+  //       "Content-Type": "application/json",
+  //     },
+  //   }
+  // ));
+  
   const {
     mutate: postBuildProof,
     isLoading
@@ -25,17 +47,15 @@ export const useZkProof = () => {
   );
 
   const postAndSetProof = async (tokenAddress) =>  {
-    console.log("proofResponse")
-    // const proofResponse = postBuildProof(tokenAddress);
-    const proofResponse = "Ima prooooof"
-    console.log("proofResponse" + proofResponse)
+    const proofResponse = postBuildProof(tokenAddress);
     setProof(proofResponse);
-    console.log("setDialogOpen to true")
     setDialogOpen(true);
   }
+
   const handleDialogClose = () => {
     setDialogOpen(false);
   };
+
 
   return {
     isLoading,

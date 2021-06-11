@@ -1,10 +1,10 @@
 apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
 metadata:
-  name: sneek-peak-back
+  name: sneak-peek-back
 spec:
   rules:
-    - host: sneek-peak-back.orchestrate.ops.consensys.net
+    - host: sneak-peek-back.ops.consensys.net
       http:
         paths:
           - backend:
@@ -13,4 +13,6 @@ spec:
             path: /
   tls:
     - hosts:
-        - sneek-peak-back.orchestrate.ops.consensys.net
+        - sneak-peek-back.ops.consensys.net
+
+  position field daring sting call force outside address broom pig blast salt

@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from "prop-types";
+import styled from 'styled-components';
 // Material ui
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -7,16 +8,27 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import InputBase from '@material-ui/core/InputBase';
-import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Avatar from '@material-ui/core/Avatar';
 import Grid from '@material-ui/core/Grid';
+import Button from '@material-ui/core/Button';
+import Icon from '@material-ui/core/Icon';
+import Typography from '@material-ui/core/Typography';
 
 import { useZkProof } from "../hooks/useZkProof"
 
 import { tokenAddresses } from "../data/translationToken"
 import { usernameToPic } from "../data/translationPic"
 import SimpleDialog from "../components/SimpleDialog"
+import { useWeb3React } from '@web3-react/core';
+import MMLogo from '../static/metamask-logo.svg';
+import { injected } from '../connectors';
+
+const MetamaskLogo = styled.img.attrs({
+  src: MMLogo,
+})`
+  height: 8px;
+`;
 
 const BootstrapInput = withStyles((theme) => ({
   root: {
@@ -87,6 +99,19 @@ const useStyles = makeStyles((theme) => ({
     marginRight: "20px",
     width: theme.spacing(7),
     height: theme.spacing(7),
+  },
+  imageIcon: {
+    height: '100%'
+  },
+  iconRoot: {
+    textAlign: 'center'
+  },
+  metamaskTypo: {
+    fontSize: "20px"
+  },
+  metamaskLogo: {
+    display: "baseline",
+    fontSize: '40px'
   }
 }));
 
@@ -116,6 +141,7 @@ export default function QuestionToggle({userName}) {
     </div>
   );
 
+  const { activate, active } = useWeb3React();
   return (
     <div className={classes.divQuestion}>
       <Grid
@@ -158,13 +184,24 @@ export default function QuestionToggle({userName}) {
             <MenuItem value={"DODO"}>DODO</MenuItem>
           </Select>
         </FormControl>
-        <Button 
-          variant="outlined"
-          className={classes.button}
-          size="large"
-          onClick={() => postAndSetProof(tokenAddresses[token])}>
-            {ButtonContent}
-        </Button>
+        { !active && (
+            <Button variant="outlined" className={classes.button} size="large" onClick={() => activate(injected)} >
+              <img alt="edit" src="/images/metamask-logo.svg" className={classes.metamaskLogo} />
+              <Typography>
+                  Connect your wallet
+              </Typography>
+            </Button>
+          ) 
+        }
+        { active && (
+          <Button 
+            variant="outlined"
+            className={classes.button}
+            size="large"
+            onClick={() => postAndSetProof(tokenAddresses[token])}>
+              {ButtonContent}
+          </Button>
+        )}
         <SimpleDialog selectedValue={proof} open={openDialog} onClose={handleDialogClose} />
       </Grid>
     </div>
