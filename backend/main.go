@@ -1,13 +1,18 @@
 package main
 
 import (
+	"bytes"
 	"context"
+	"encoding/base64"
 	"fmt"
-	"log"
 	"net/http"
 	"os"
 
+	"github.com/ChatelainSys/SneakPeek/backend/crypto/circuits"
 	"github.com/ChatelainSys/SneakPeek/backend/db"
+	"github.com/consensys/gnark-crypto/ecc"
+	"github.com/consensys/gnark/backend/groth16"
+
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"go.mongodb.org/mongo-driver/mongo/options"
@@ -40,8 +45,27 @@ func (h *Handlers) buildProof(c *gin.Context) {
 
 	if c.Bind(&json) == nil {
 		res, _ := h.DB.GetIntraDayTrades(context.Background())
-		log.Printf("%v\n", res)
-		c.JSON(http.StatusOK, gin.H{"proof": "ok"})
+		proof := circuits.GenerateProof(res, 100)
+		var buf bytes.Buffer
+		_, _ = proof.WriteTo(&buf)
+
+		c.JSON(http.StatusOK, gin.H{"proof": fmt.Sprintf("%v", base64.StdEncoding.EncodeToString(buf.Bytes()))})
+	}
+}
+
+func (h *Handlers) verifyProof(c *gin.Context) {
+
+	var json struct {
+		Proof string `json:"proof"`
+	}
+
+	if c.Bind(&json) == nil {
+		proofBytes, _ := base64.StdEncoding.DecodeString(json.Proof)
+		proof := groth16.NewProof(ecc.BN254)
+		_, _ = proof.ReadFrom(bytes.NewReader(proofBytes))
+		isTrue := circuits.VerifyProof(proof, "", 100)
+
+		c.JSON(http.StatusOK, gin.H{"verify": isTrue})
 	}
 }
 
@@ -49,10 +73,10 @@ func main() {
 	r := gin.Default()
 	r.Use(cors.Default())
 
-	fmt.Println(db.StaticTrades)
 	hand := &Handlers{DB: InitDB()}
 
 	r.POST("/build-proof", hand.buildProof)
+	r.POST("/verify-proof", hand.verifyProof)
 
 	_ = r.Run() // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
 }

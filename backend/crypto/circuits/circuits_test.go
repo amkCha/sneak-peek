@@ -9,7 +9,17 @@ import (
 	"github.com/consensys/gnark/backend"
 	"github.com/consensys/gnark/backend/groth16"
 	"github.com/consensys/gnark/frontend"
+	"github.com/stretchr/testify/assert"
 )
+
+func TestFullLoop(t *testing.T) {
+	// Make sure the init is run
+	trades := mockedData(N_TRADES)
+	proof := GenerateProof(trades, 10)
+	check := VerifyProof(proof, "ignored-string", 10)
+	assert.True(t, check, "Boom")
+
+}
 
 func TestCircuit(t *testing.T) {
 

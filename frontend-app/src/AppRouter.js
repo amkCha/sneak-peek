@@ -42,6 +42,9 @@ const useStyles = makeStyles(() => ({
   }},
   gridButton: {
     width: "800px"
+  },
+  homepage: {
+    justifyContent: "center"
   }
 }));
 
@@ -62,42 +65,46 @@ export const AppRouter = () => {
   return (
     <Switch>
       <Route exact path={"/"}>
-        <Grid
-        container
-        direction="column"
-        justify="flex-start"
-        alignItems="center"
-        >
-            <img src={"/images/logo.svg"} alt="logo" className={classes.logo} onClick={() => {redirectToInfluencers()}}/>
-            <img src={"/images/eyesbnw.svg"} alt="logo" className={classes.logo} onClick={()=>{console.log("test")}} />
-            <Grid
-              container
-              direction="row"
-              justify="space-evenly"
-              alignItems="center"
-              className={classes.gridButton}
-            >
-            <Button 
-              variant="outlined"
-              className={classes.buttonInfluencer}
-              size="large"
-              onClick={() => {connectToMetamaskAndRedirectToInfluencerProof()}}>
-                Trader-Influencer
-            </Button>
-            <Button 
-              variant="outlined"
-              className={classes.buttonSneakPeeker}
-              size="large"
-              onClick={() => {redirectToInfluencers()}}>
-                Sneak-peeker
-            </Button>
+        <div className="Homepage">
+          <Grid
+          container
+          direction="column"
+          justify="flex-start"
+          alignItems="center"
+          >
+              <img src={"/images/logo.svg"} alt="logo" className={classes.logo} onClick={() => {redirectToInfluencers()}}/>
+              <img src={"/images/eyesbnw.svg"} alt="logo" className={classes.logo} onClick={()=>{console.log("test")}} />
+              <Grid
+                container
+                direction="row"
+                justify="space-evenly"
+                alignItems="center"
+                className={classes.gridButton}
+              >
+              <Button 
+                variant="outlined"
+                className={classes.buttonInfluencer}
+                size="large"
+                onClick={() => {connectToMetamaskAndRedirectToInfluencerProof()}}>
+                  Trader-Influencer
+              </Button>
+              <Button 
+                variant="outlined"
+                className={classes.buttonSneakPeeker}
+                size="large"
+                onClick={() => {redirectToInfluencers()}}>
+                  Sneak-peeker
+              </Button>
+            </Grid>
           </Grid>
-        </Grid>
+        </div>
       </Route>
-      <Route exact path={"/traders-influencers"} component={Influencers} />
-      <Route exact path={"/influencer-proof"} component={InfluencerProof} />
-      <Route exact path={"/pay-per-view/:userName"} component={PayPerView} />
-      <Route exact path={"/verify/:proof"} component={ProofVerification} />
+      <div className="App">
+        <Route exact path={"/traders-influencers"} component={Influencers} />
+        <Route exact path={"/influencer-proof"} component={InfluencerProof} />
+        <Route exact path={"/pay-per-view/:userName"} component={PayPerView} />
+        <Route exact path={"/verify/:proof"} component={ProofVerification} />
+      </div>
     </Switch>
   );
 };

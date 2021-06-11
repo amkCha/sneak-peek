@@ -14,6 +14,8 @@ import (
 
 var R1CS frontend.CompiledConstraintSystem
 var PROVING_KEY groth16.ProvingKey
+var VERIFICATION_KEY groth16.VerifyingKey
+var ROOT fr.Element
 
 const N_TRADES = 128
 
@@ -25,7 +27,7 @@ func init() {
 		panic(err)
 	}
 	R1CS = r1cs
-	PROVING_KEY, _, err = groth16.Setup(R1CS)
+	PROVING_KEY, VERIFICATION_KEY, err = groth16.Setup(R1CS)
 	if err != nil {
 		panic(err)
 	}
@@ -42,11 +44,22 @@ func GenerateProof(trades []types.Trades, threshold int) groth16.Proof {
 	thresholdField.SetUint64(uint64(threshold))
 	merkleized := merkleization.MerkleizeTrades(trades)
 	witness.Assign(trades, thresholdField, merkleized.Tree.Root())
+	ROOT = merkleized.Tree.Root()
 	proof, err := groth16.Prove(R1CS, PROVING_KEY, &witness)
 	if err != nil {
 		panic(err)
 	}
 	return proof
+}
+
+func VerifyProof(proof groth16.Proof, root string, threshold int) bool {
+	witness := Allocate(N_TRADES)
+	var thresholdField fr.Element
+	thresholdField.SetUint64(uint64(threshold))
+	witness.ThresholdBuy.Assign(thresholdField)
+	witness.Root.Assign(ROOT)
+	err := groth16.Verify(proof, VERIFICATION_KEY, &witness)
+	return err == nil
 }
 
 type SneakPeekCircuit struct {

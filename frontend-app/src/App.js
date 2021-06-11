@@ -14,17 +14,13 @@ function getLibrary(provider) {
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-          <QueryClientProvider client={queryClient}>
-            <Web3ReactProvider getLibrary={getLibrary}>
-                <Router >
-                  <AppRouter />
-                </Router>
-              </Web3ReactProvider>
-          </QueryClientProvider>
-      </header>
-    </div>
+    <QueryClientProvider client={queryClient}>
+      <Web3ReactProvider getLibrary={getLibrary}>
+          <Router >
+            <AppRouter />
+          </Router>
+        </Web3ReactProvider>
+    </QueryClientProvider>
   );
 }
 

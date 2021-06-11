@@ -3,7 +3,9 @@ package db
 import (
 	"context"
 	"log"
+	"math/big"
 
+	"github.com/ChatelainSys/SneakPeek/backend/types"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -45,7 +47,7 @@ type Trades struct {
 	Sell string
 }
 
-func (d *DB) GetIntraDayTrades(ctx context.Context) ([]Trades, error) {
+func (d *DB) GetIntraDayTrades(ctx context.Context) ([]types.Trades, error) {
 	tradesCollection := d.client.Collection(tradesCollection)
 
 	findOptions := options.Find()
@@ -61,12 +63,15 @@ func (d *DB) GetIntraDayTrades(ctx context.Context) ([]Trades, error) {
 		log.Fatal(err)
 	}
 
-	var trades []Trades
+	var trades []types.Trades
 	for _, trade := range balances {
-		trades = append(trades, Trades{
-			Day:  trade["day"].(int64),
-			Buy:  trade["buy"].(string),
-			Sell: trade["sell"].(string),
+		buy, _ := (&big.Int{}).SetString(trade["buy"].(string), 10)
+		sell, _ := (&big.Int{}).SetString(trade["sell"].(string), 10)
+
+		trades = append(trades, types.Trades{
+			Day:  &(&struct{ x uint }{uint(trade["day"].(int64))}).x,
+			Buy:  buy,
+			Sell: sell,
 		})
 	}
 
