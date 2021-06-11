@@ -11,14 +11,13 @@ Sneak Peek is a platform that enables to challenge crypto-trader influencers to 
 
 ## Requirements
 
-
+- 'npm'
+- 'docker'
 
 ## Run app
 
 ```
-cd frontend-app
-npm i
-npm start
+make run
 ```
 
 App is accessible on `http://localhost:3000`
