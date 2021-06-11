@@ -20,8 +20,15 @@ const N_TRADES = 128
 // compiles the circuit
 func init() {
 	circuit := Allocate(N_TRADES)
-	R1CS, _ = frontend.Compile(ecc.BN254, backend.GROTH16, &circuit)
-	PROVING_KEY, _, _ = groth16.Setup(R1CS)
+	r1cs, err := frontend.Compile(ecc.BN254, backend.GROTH16, &circuit)
+	if err != nil {
+		panic(err)
+	}
+	R1CS = r1cs
+	PROVING_KEY, _, err = groth16.Setup(R1CS)
+	if err != nil {
+		panic(err)
+	}
 }
 
 /// Generate proof from passed trades
