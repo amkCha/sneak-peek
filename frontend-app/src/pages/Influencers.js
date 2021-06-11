@@ -18,7 +18,7 @@ export const Influencers = () => {
 
   return (
     <>
-    <LogoAppBar />
+    <LogoAppBar isWalletButton={true}/>
     <Grid
       container
       direction="column"

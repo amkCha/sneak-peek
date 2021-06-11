@@ -47,8 +47,7 @@ export const useZkProof = () => {
   );
 
   const postAndSetProof = async (tokenAddress) =>  {
-    postBuildProof(tokenAddress);
-    const proofResponse = "Imaaaproooof";
+    const proofResponse = postBuildProof(tokenAddress);
     setProof(proofResponse);
     setDialogOpen(true);
   }

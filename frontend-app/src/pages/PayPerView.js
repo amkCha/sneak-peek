@@ -7,10 +7,10 @@ import LogoAppBar from "../components/LogoAppBar"
 
 export const PayPerView = ({match}) => {
   const { userName } = match.params;
-  
+
   return (
     <>
-    <LogoAppBar />
+    <LogoAppBar isWalletButton={false}/>
     <QuestionToggle userName={userName} />
     </>
   );
