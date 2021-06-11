@@ -1,6 +1,7 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
 import { Switch, Route } from 'react-router-dom';
+import { useWeb3React } from '@web3-react/core';
 // Material ui
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
@@ -8,6 +9,9 @@ import Button from '@material-ui/core/Button';
 
 import Influencers from "./pages/Influencers";
 import PayPerView from "./pages/PayPerView";
+import InfluencerProof from "./pages/InfluencerProof";
+
+import { injected } from './connectors';
 
 const useStyles = makeStyles(() => ({
   logo: {
@@ -44,10 +48,13 @@ export const AppRouter = () => {
   const classes = useStyles();
   let history = useHistory();
 
+  const { activate, active, account } = useWeb3React();
+
   function redirectToInfluencers() {
     history.push("/traders-influencers");
   };
-  function redirectToInfluencerProof() {
+  function connectToMetamaskAndRedirectToInfluencerProof() {
+    activate(injected);
     history.push("/influencer-proof");
   };
 
@@ -73,7 +80,7 @@ export const AppRouter = () => {
               variant="outlined"
               className={classes.buttonInfluencer}
               size="large"
-              onClick={() => {redirectToInfluencerProof()}}>
+              onClick={() => {connectToMetamaskAndRedirectToInfluencerProof()}}>
                 Trader-Influencer
             </Button>
             <Button 
@@ -87,6 +94,7 @@ export const AppRouter = () => {
         </Grid>
       </Route>
       <Route exact path={"/traders-influencers"} component={Influencers} />
+      <Route exact path={"/influencer-proof"} component={InfluencerProof} />
       <Route exact path={"/pay-per-view/:userName"} component={PayPerView} />
     </Switch>
   );

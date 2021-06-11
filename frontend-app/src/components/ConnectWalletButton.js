@@ -24,9 +24,8 @@ const useStyles = makeStyles((theme) => ({
 
 const ConnectWalletButton = () => {
   const classes = useStyles();
-  const web3React = useWeb3React();
   const { activate, active, account } = useWeb3React();
-    console.log(web3React)
+  
   if (!active) {
     return  (
         <Button onClick={() => activate(injected)} >
