@@ -7,8 +7,8 @@
  
 # Sneak Peek
 
-Sneak Peek is a platform that allows crypto-trader influencers to reveal partial information about their investiments history. It relies on Zero Knowledge technology so users can securely prove some characteristics of their token holdings history without having to disclose neither their Ethereum address nor the complete historical composition of their wallet.
-  
+Sneak Peek is a platform that allows crypto-trader influencers to reveal partial information about their investiments history. It relies on Zero Knowledge technology so crypto-traders can claim some characteristic about their token holdings history without having to disclose neither their Ethereum address nor the complete historical composition of their wallet.
+
 In particular, it allows crypto-traders influencers to
 
 - certify that their social media communication are aligned with their actual investment strategy
