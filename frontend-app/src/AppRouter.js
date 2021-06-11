@@ -10,6 +10,7 @@ import Button from '@material-ui/core/Button';
 import Influencers from "./pages/Influencers";
 import PayPerView from "./pages/PayPerView";
 import InfluencerProof from "./pages/InfluencerProof";
+import ProofVerification from "./pages/ProofVerification";
 
 import { injected } from './connectors';
 
@@ -102,6 +103,7 @@ export const AppRouter = () => {
         <Route exact path={"/traders-influencers"} component={Influencers} />
         <Route exact path={"/influencer-proof"} component={InfluencerProof} />
         <Route exact path={"/pay-per-view/:userName"} component={PayPerView} />
+        <Route exact path={"/verify/:proof"} component={ProofVerification} />
       </div>
     </Switch>
   );

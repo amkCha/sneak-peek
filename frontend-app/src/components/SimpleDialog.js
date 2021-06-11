@@ -31,14 +31,14 @@ export default function SimpleDialog(props) {
 
   return (
     <Dialog onClose={handleClose} aria-labelledby="simple-dialog-title" open={open}>
-      <DialogTitle id="simple-dialog-title" className={classes.dialogTitle}>Here is your proof</DialogTitle>
+      <DialogTitle id="simple-dialog-title" className={classes.dialogTitle}>Here is a link to post on your social media account</DialogTitle>
       <Typography variant="subtitle1" component="p" className={classes.proof}>
         {selectedValue}
       </Typography>
       <CopyToClipboard
         text={selectedValue}
         onCopy={() => setCopied(true)}>
-        <button>Copy your proof</button>
+        <button>Copy link</button>
       </CopyToClipboard>
       {copied ? <span style={{color: "#282c34"}}>Copied.</span> : null}
     </Dialog>
