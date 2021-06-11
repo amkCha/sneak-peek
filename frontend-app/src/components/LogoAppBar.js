@@ -11,8 +11,8 @@ import ConnectWalletButton from "./ConnectWalletButton"
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    flexGrow: 1, 
-    alignItems: "baseline"
+    flexGrow: 0.1,
+    alignItems: "baseline",
   },
   logo: {
     height: "48px"
