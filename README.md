@@ -7,7 +7,14 @@
  
 # Sneak Peek
 
-Sneak Peek is a platform that enables to challenge crypto-trader influencers to make sure they actually hold tokens. It relies on Zero Knowledge technology so influencers can securely prove they hold tokens while not having to disclose neither their Ethereum address nor the complete composition of their wallet.
+Sneak Peek is a platform that enables to generate zero knowledge proof of long-term holding for DeFi assets without having to disclose holder data.
+
+In particular it allows crypto-trader influencers 
+
+- to certify their social media communication are aligned with their actual investment strategy
+- to provide their followers with partial information about their DeFi wallet composition/strategy
+
+Sneak Peek  relies on Zero Knowledge technology so influencers can securely prove holdings while not having to disclose neither their Ethereum address nor the complete composition of their wallet.
 
 ## Requirements
 
