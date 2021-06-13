@@ -12,7 +12,6 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import Avatar from '@material-ui/core/Avatar';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
-import Icon from '@material-ui/core/Icon';
 import Typography from '@material-ui/core/Typography';
 
 import { useZkProof } from "../hooks/useZkProof"
@@ -177,9 +176,11 @@ export default function QuestionToggle({userName}) {
               <em>None</em>
             </MenuItem>
             <MenuItem value={1}>{`Has influencer ${userName} been holding this token more than selling it for the past 6 months ?`}</MenuItem>
-            <MenuItem value={2}>{`Does influencer ${userName} has a diversified wallet ?`}</MenuItem>
+            <MenuItem value={2}>{`Does influencer ${userName} have a diversified wallet ?`}</MenuItem>
+            <MenuItem value={2}>{`Is influencer ${userName} holding tokens with small market caps ?`}</MenuItem>
           </Select>
         </FormControl>
+        { question == 1 && (
         <FormControl className={classes.token}>
           <InputLabel id="demo-customized-select-label-token" className={classes.inputLabel}>Token</InputLabel>
           <Select
@@ -196,7 +197,8 @@ export default function QuestionToggle({userName}) {
             <MenuItem value={"LINK"}>LINK</MenuItem>
             <MenuItem value={"DODO"}>DODO</MenuItem>
           </Select>
-        </FormControl>
+        </FormControl>)
+        }
         { !active && (
             <Button variant="outlined" className={classes.button} size="large" onClick={() => activate(injected)} >
               <img alt="edit" src="/images/metamask-logo.svg" className={classes.metamaskLogo} />
