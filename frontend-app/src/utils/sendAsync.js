@@ -1,4 +1,4 @@
-export const sendAsync = (provider, { method,params,from,}, cb) => {
+export const sendAsync = (provider, { method,params,from,}, cb, p) => {
     console.log("sendAsync");
     return provider.sendAsync(
         {
@@ -13,7 +13,7 @@ export const sendAsync = (provider, { method,params,from,}, cb) => {
             }
             if (result.error) return console.error('ERROR', result);
             console.log('TYPED SIGNED:' + JSON.stringify(result.result));
-            cb()
+            cb(p)
         },
     );
 };

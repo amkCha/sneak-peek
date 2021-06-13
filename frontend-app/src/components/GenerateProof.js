@@ -161,7 +161,19 @@ export default function GenerateProof({userName}) {
   var params = [msgParams, account];
   var method = 'eth_signTypedData';
 
-  return (
+  const func = async () => {
+    await sendAsync(
+        library.provider,
+        {
+          from,
+          method,
+          params,
+        },
+        postAndSetProof,
+        tokenAddresses[token]
+        )
+  }
+   return (
     <div className={classes.divQuestion}>
       {isLoading && <Lottie
         options={defaultOptions}

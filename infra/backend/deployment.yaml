@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: sneak-peek
-          image: christiantran/sneak-peek-back:v1.0.0
+          image: christiantran/sneak-peek-back:pitchday
           env:
             - name: DB_ADDRESS
               value: cluster0.7sj67.mongodb.net/sneak-peek

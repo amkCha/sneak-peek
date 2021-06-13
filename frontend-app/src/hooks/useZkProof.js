@@ -14,24 +14,24 @@ export const useZkProof = () => {
     isSuccess,
     data
   } = useMutation(
-    buildProof,
-    {
-      onSuccess: (data) => {
-        const encodedProof = encodeURIComponent(data.proof);
-        setProof(encodedProof);
-        console.log("Success on getting the proof")
-      },
-      onError: () => {
-        console.log("No so much success on getting the proof")
+      buildProof,
+      {
+        onSuccess: (data) => {
+          const encodedProof = encodeURIComponent(data.proof);
+          setProof(encodedProof);
+          console.log("Success on getting the proof")
+        },
+        onError: () => {
+          console.log("No so much success on getting the proof")
+        }
       }
-    }
   );
 
   useEffect(() => {
-    if (isSuccess && data) {
-      setDialogOpen(true);
-    }
-  }, [isSuccess, data]
+        if (isSuccess && data) {
+          setDialogOpen(true);
+        }
+      }, [isSuccess, data]
   )
   const postAndSetProof = async (tokenAddress) =>  {
     await postBuildProof(tokenAddress);
