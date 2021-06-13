@@ -1,5 +1,5 @@
 // Library
-import React from "react";
+import React, { useEffect } from "react";
 import { useWeb3React } from '@web3-react/core';
 import axios from "axios";
 // Material ui
@@ -12,7 +12,6 @@ import CancelIcon from '@material-ui/icons/Cancel';
 import Tooltip from '@material-ui/core/Tooltip';
 // Component 
 import LogoAppBar from "../components/LogoAppBar"
-import { AddressToUsername } from "../data/translationUserAdd"
 
 import { useVerify } from "../hooks/useVerify";
 
@@ -74,9 +73,6 @@ export const ProofVerification = ({match}) => {
   const classes = useStyles();
   const { account } = useWeb3React();
 
-
-  const userName = AddressToUsername[account];
-
   const decodedProof = decodeURIComponent(proof) 
 
   const {
@@ -85,8 +81,14 @@ export const ProofVerification = ({match}) => {
     response
   } = useVerify();
 
-  console.log(proof);
   const isBoolean = (bool) => typeof(bool) == "boolean";
+
+  // useEffect ( () => {
+  //   debugger;
+  //   if (!isBoolean(response)) {
+  //     postAndVerifyProof(decodedProof);
+  //   }
+  // }, [response])
 
   return (
     <>
