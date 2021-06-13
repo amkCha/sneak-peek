@@ -1,16 +1,13 @@
 // Library
 import React, { useEffect } from "react";
-import { useWeb3React } from '@web3-react/core';
-import axios from "axios";
 // Material ui
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
-import DoneOutlineIcon from '@material-ui/icons/DoneOutline';
 import Button from '@material-ui/core/Button';
 import CancelIcon from '@material-ui/icons/Cancel';
 import Tooltip from '@material-ui/core/Tooltip';
-import Icon from '@material-ui/core/Icon';
+import CircularProgress from '@material-ui/core/CircularProgress';
 // Component 
 import LogoAppBar from "../components/LogoAppBar"
 
@@ -63,6 +60,10 @@ const useStyles = makeStyles((theme) => ({
   logoCheck: {
     height: "32px",
     margin: "15px"
+  },
+  circularProgress: {
+    height: "30px",
+    color: "#95e664"
   }
 }));
 
@@ -81,12 +82,20 @@ export const ProofVerification = ({match}) => {
 
   const isBoolean = (bool) => typeof(bool) == "boolean";
 
-  // useEffect ( () => {
-  //   debugger;
-  //   if (!isBoolean(response)) {
-  //     postAndVerifyProof(decodedProof);
-  //   }
-  // }, [response])
+  useEffect ( () => {
+    if (!isBoolean(response)) {
+      postAndVerifyProof(decodedProof);
+    }
+  }, [])
+
+  // Keep just in case
+  const button = (
+    <Tooltip title={decodedProof} aria-label="add">
+    <Button className={classes.proofTypo} onClick={() => postAndVerifyProof(decodedProof) }> 
+      Verify proof
+    </Button>
+    </Tooltip>
+  );
 
   return (
     <>
@@ -98,18 +107,14 @@ export const ProofVerification = ({match}) => {
       alignItems="center"
     >
         { !isBoolean(response) && (
-        <Tooltip title={decodedProof} aria-label="add">
-        <Button className={classes.proofTypo} onClick={() => postAndVerifyProof(decodedProof) }> 
-          Verify proof
-        </Button>
-        </Tooltip>
+          <CircularProgress />
         )}
         { !isBoolean(response)  && (<> </>)}
         { isBoolean(response)  && response  && (
           <>
           <img src={"/images/snpcheck.png"} alt="logo" className={classes.logoCheck} />
           <Typography className={classes.influencerTypo}> 
-            The influencer 0x28 has been holding LINK for more than 6 months
+            The influencer 0x28 has been holding LINK over the past 6 months
           </Typography>
           </>
         )}
