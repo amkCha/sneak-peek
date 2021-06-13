@@ -1,11 +1,12 @@
 import React, { useEffect } from 'react';
 import { useMutation } from "react-query";
+import { BitlyClient } from 'bitly';
 // Constants
 import { buildProof } from "../api";
 
 export const useZkProof = () => {
 
-  const [proof, setProof] = React.useState('');
+  const [proofUrl, setProofUrl] = React.useState('');
   const [openDialog, setDialogOpen] = React.useState(false);
 
   const {
@@ -16,9 +17,17 @@ export const useZkProof = () => {
   } = useMutation(
       buildProof,
       {
-        onSuccess: (data) => {
+        onSuccess: async (data) => {
           const encodedProof = encodeURIComponent(data.proof);
-          setProof(encodedProof);
+          const bitly = new BitlyClient("4db22a691e6db82e7fdf3034cbd3aa6ec5b75c52", {});
+          let bitlyResponse;
+          try {
+            bitlyResponse = await bitly.shorten(`https://sneak-peek.ops.consensys.net/verify/${encodedProof}`);
+            console.log(bitlyResponse.link)
+          } catch (e) {
+            console.log(e)
+          }
+          setProofUrl(bitlyResponse.link);
           console.log("Success on getting the proof")
         },
         onError: () => {
@@ -45,7 +54,7 @@ export const useZkProof = () => {
   return {
     isLoading,
     postAndSetProof,
-    proof,
+    proofUrl,
     openDialog,
     handleDialogClose
   };

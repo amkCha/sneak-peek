@@ -8,21 +8,27 @@ import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 // Component 
 import LogoAppBar from "../components/LogoAppBar"
-import InfluencerCard from "../components/InfluencerCard"
 import GenerateProof from "../components/GenerateProof"
 import { AddressToUsername } from "../data/translationUserAdd"
 import { usernameToPic } from "../data/translationPic"
+import Tooltip from '@material-ui/core/Tooltip';
 
 const useStyles = makeStyles((theme) => ({
-  grid: {
-    margin: "30px",
-  },
   avatar: {
     width: theme.spacing(15),
     height: theme.spacing(15),
   },
-  influencerTypo: {
-    color: "#ffffff"
+  typoDescriptionProof: {
+    borderRadius: "10px",
+    marginTop: "32px",
+    width: "250px",
+    frontSize: "12px",
+    backgroundColor: '#282c34',
+    color: '#95e664',
+    border: '#95e664',
+  },
+  tooltipProof: {
+    fontSize: "14px"
   }
 }));
 
@@ -42,6 +48,13 @@ export const InfluencerProof = () => {
       alignItems="center"
     >
       { account && (<Avatar alt="user" src={usernameToPic[userName]} className={classes.avatar} />)}
+      { account && ( 
+          <Tooltip title={"i.e, you have not sold more than half of the token you have bought"} aria-label="add" placement="right-start" className={classes.tooltipProof}>
+          <Typography className={classes.typoDescriptionProof}>
+            Select a token and generate the proof that you have been holding more than selling this token for the past 6 months
+          </Typography>
+          </Tooltip>
+      )}
       { account && ( <GenerateProof />)}
     </Grid>
     </>

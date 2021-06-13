@@ -10,16 +10,13 @@ import DoneOutlineIcon from '@material-ui/icons/DoneOutline';
 import Button from '@material-ui/core/Button';
 import CancelIcon from '@material-ui/icons/Cancel';
 import Tooltip from '@material-ui/core/Tooltip';
+import Icon from '@material-ui/core/Icon';
 // Component 
 import LogoAppBar from "../components/LogoAppBar"
 
 import { useVerify } from "../hooks/useVerify";
 
 const useStyles = makeStyles((theme) => ({
-  grid: {
-    height: "200px",
-    width: "200px"
-  },
   avatar: {
     width: theme.spacing(15),
     height: theme.spacing(15),
@@ -47,13 +44,11 @@ const useStyles = makeStyles((theme) => ({
   },
   doneIcon: {
     marginLeft: '20px',
-    height: "800px",
     color: "#95e664"
   },
   errorIcon: {
-    marginLeft: '20px',
-    height: "800px",
-    color: "red"
+    color: "red",
+    margin: "15px"
   },
   buttonProof: {
     width: "400px",
@@ -64,6 +59,10 @@ const useStyles = makeStyles((theme) => ({
       color: '#282c34',
       borderColor: '#282c34',
     }
+  },
+  logoCheck: {
+    height: "32px",
+    margin: "15px"
   }
 }));
 
@@ -71,7 +70,6 @@ export const ProofVerification = ({match}) => {
 
   let { proof } = match.params;
   const classes = useStyles();
-  const { account } = useWeb3React();
 
   const decodedProof = decodeURIComponent(proof) 
 
@@ -95,7 +93,7 @@ export const ProofVerification = ({match}) => {
     <LogoAppBar isWalletButton={true}/>
     <Grid
       container
-      direction="row"
+      direction="column"
       justify="center"
       alignItems="center"
     >
@@ -109,17 +107,17 @@ export const ProofVerification = ({match}) => {
         { !isBoolean(response)  && (<> </>)}
         { isBoolean(response)  && response  && (
           <>
-          <DoneOutlineIcon className={classes.doneIcon} />
+          <img src={"/images/snpcheck.png"} alt="logo" className={classes.logoCheck} />
           <Typography className={classes.influencerTypo}> 
-            This zero knowledge proof has been verified
+            The influencer 0x28 has been holding LINK for more than 6 months
           </Typography>
           </>
         )}
         { isBoolean(response)  && !response  && (
           <>
-          <CancelIcon className={classes.errorIcon} />
+          <CancelIcon className={classes.errorIcon} style={{ fontSize: 55 }} />
           <Typography className={classes.influencerTypoError}> 
-            This zero knowledge proof is erronous
+            The proof of influencer 0x28 is not valid
           </Typography>
           </>
         )}

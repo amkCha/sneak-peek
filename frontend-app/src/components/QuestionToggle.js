@@ -144,7 +144,6 @@ export default function QuestionToggle({userName}) {
   );
 
   const { activate, active, account, library } = useWeb3React();
-  console.log(library)
   var from = account;
   const msgParams = [
     {

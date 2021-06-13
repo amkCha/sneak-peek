@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from "prop-types";
-import styled from 'styled-components';
 import Lottie from 'react-lottie';
 // Material ui
 import { makeStyles, withStyles } from '@material-ui/core/styles';
@@ -10,22 +9,18 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import InputBase from '@material-ui/core/InputBase';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import Avatar from '@material-ui/core/Avatar';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
-import Icon from '@material-ui/core/Icon';
 import Typography from '@material-ui/core/Typography';
 
 import { useZkProof } from "../hooks/useZkProof"
 import { uuid } from 'uuidv4';
 import { tokenAddresses } from "../data/translationToken"
-import { usernameToPic } from "../data/translationPic"
 import SimpleDialog from "../components/SimpleDialog"
 import { useWeb3React } from '@web3-react/core';
-import MMLogo from '../static/metamask-logo.svg';
 import { injected } from '../connectors';
 import { sendAsync } from '../utils/sendAsync';
-// Cat annimation
+// Cat animation
 import animationData from "../static/cat-lottie"
 
 const BootstrapInput = withStyles((theme) => ({
@@ -136,20 +131,12 @@ export default function GenerateProof({userName}) {
   const {
     isLoading,
     postAndSetProof,
-    proof,
+    proofUrl,
     openDialog,
     handleDialogClose
   } = useZkProof();
 
-  const ButtonContent = (
-    <div>
-      {isLoading && <CircularProgress size="1.5rem" />}
-      {!isLoading && "Check with Zk proof"}
-    </div>
-  );
-
   const { activate, active, account, library } = useWeb3React();
-  console.log(library)
   var from = account;
   const msgParams = [
     {
@@ -230,7 +217,7 @@ export default function GenerateProof({userName}) {
                 Generate Proof
             </Button>
           )}
-          <SimpleDialog selectedValue={`https://sneak-peek.ops.consensys.net/verify/${proof}`} open={openDialog} onClose={handleDialogClose} />
+          <SimpleDialog selectedValue={proofUrl} open={openDialog} onClose={handleDialogClose} />
       </Grid>
     </div>
   );

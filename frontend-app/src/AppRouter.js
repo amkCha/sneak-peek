@@ -73,7 +73,7 @@ export const AppRouter = () => {
           alignItems="center"
           >
               <img src={"/images/logo.svg"} alt="logo" className={classes.logo} onClick={() => {redirectToInfluencers()}}/>
-              <img src={"/images/eyesbnw.svg"} alt="logo" className={classes.logo} onClick={()=>{console.log("test")}} />
+              <img src={"/images/eyesbnw.svg"} alt="logo" className={classes.logo} />
               <Grid
                 container
                 direction="row"
