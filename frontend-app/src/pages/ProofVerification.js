@@ -114,7 +114,7 @@ export const ProofVerification = ({match}) => {
           <>
           <img src={"/images/snpcheck.png"} alt="logo" className={classes.logoCheck} />
           <Typography className={classes.influencerTypo}> 
-            The influencer 0x28 has been holding LINK over the past 6 months
+            The influencer nmvalera has been holding LINK over the past 6 months
           </Typography>
           </>
         )}
@@ -122,7 +122,7 @@ export const ProofVerification = ({match}) => {
           <>
           <CancelIcon className={classes.errorIcon} style={{ fontSize: 55 }} />
           <Typography className={classes.influencerTypoError}> 
-            The proof of influencer 0x28 is not valid
+            The proof of influencer nmvalera is not valid
           </Typography>
           </>
         )}
