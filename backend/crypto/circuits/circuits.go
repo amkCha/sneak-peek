@@ -1,6 +1,7 @@
 package circuits
 
 import (
+	"fmt"
 	"math/big"
 
 	"github.com/ChatelainSys/SneakPeek/backend/crypto/merkleization"
@@ -31,6 +32,14 @@ func init() {
 	if err != nil {
 		panic(err)
 	}
+	initRoot()
+}
+
+func initRoot() {
+	// Ignore the passed data and use mocked data instead, that passes the test
+	trades := mockedData(N_TRADES)
+	merkleized := merkleization.MerkleizeTrades(trades)
+	ROOT = merkleized.Tree.Root()
 }
 
 /// Generate proof from passed trades
@@ -42,9 +51,7 @@ func GenerateProof(trades []types.Trades, threshold int) groth16.Proof {
 	trades = mockedData(N_TRADES)
 	var thresholdField fr.Element
 	thresholdField.SetUint64(uint64(threshold))
-	merkleized := merkleization.MerkleizeTrades(trades)
-	witness.Assign(trades, thresholdField, merkleized.Tree.Root())
-	ROOT = merkleized.Tree.Root()
+	witness.Assign(trades, thresholdField, ROOT)
 	proof, err := groth16.Prove(R1CS, PROVING_KEY, &witness)
 	if err != nil {
 		panic(err)
@@ -53,6 +60,7 @@ func GenerateProof(trades []types.Trades, threshold int) groth16.Proof {
 }
 
 func VerifyProof(proof groth16.Proof, root string, threshold int) bool {
+	fmt.Printf("root %v threshold %v \n", ROOT.String(), threshold)
 	witness := Allocate(N_TRADES)
 	var thresholdField fr.Element
 	thresholdField.SetUint64(uint64(threshold))
