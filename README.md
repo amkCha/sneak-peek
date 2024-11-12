@@ -26,3 +26,9 @@ make run
 ```
 
 App is accessible on `http://localhost:3000`
+
+## References
+
+**Winner** of the Cypherpunk Hackathon 2021 - Grand Prize
+
+[Cypherpunk blogpost](https://consensys.io/blog/10-consensys-projects-from-cypherpunk-2021)
